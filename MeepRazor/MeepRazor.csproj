@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="MeepLib">
+      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.0\MeepLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MeepModel">
+      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.0\MeepModel.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SmartFormat.NET" Version="2.3.1.1" />
+    <PackageReference Include="System.Reactive" Version="4.1.2" />
+    <PackageReference Include="NLog" Version="4.5.11" />
+    <PackageReference Include="RazorEngine" Version="3.10.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Messages\" />
+  </ItemGroup>
+</Project>
