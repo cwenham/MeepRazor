@@ -4,6 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>dotnet publish -r osx.10.10-x64</command>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MeepLib">
       <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.0\MeepLib.dll</HintPath>
@@ -17,6 +27,7 @@
     <PackageReference Include="System.Reactive" Version="4.1.2" />
     <PackageReference Include="NLog" Version="4.5.11" />
     <PackageReference Include="RazorEngine" Version="3.10.0" />
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
-using MeepLib;
+
+using MeepLib.Config;
 using MeepLib.MeepLang;
 
 namespace MeepRazor.Config
@@ -9,7 +10,7 @@ namespace MeepRazor.Config
     /// Container for Razor template
     /// </summary>
     [MeepNamespace(Extensions.PluginNamespace)]
-    public class Template : ANamable, IMeepDeserialisable
+    public class Template : AConfig, IMeepDeserialisable
     {
         public string Content { get; set; }
 
@@ -19,9 +20,8 @@ namespace MeepRazor.Config
             {
                 if (!reader.Read())
                     return;
-
-                if (reader.NodeType == XmlNodeType.Text)
-                    Content = reader.ReadContentAsString();
+                    
+                Content = reader.ReadContentAsString();
             }
         }
     }

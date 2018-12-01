@@ -52,29 +52,41 @@ namespace MeepRazor
             string templateKey = null;
             string renderedPage = null;
 
+            if (!String.IsNullOrWhiteSpace(Template))
+            {
+                templateKey = Smart.Format(Template, context);
+
+                var inlineTemplate = Templates.Where(x => x.Name == templateKey).FirstOrDefault();
+                if (inlineTemplate != null)
+                    templateBody = inlineTemplate.Content;
+            }
+
+            if (!String.IsNullOrWhiteSpace(Path) && File.Exists(Path))
+            {
+                templateKey = Path;
+                templateBody = File.ReadAllText(Path);
+            }
+
+            if (templateKey is null && Templates.Any())
+            {
+                var firstTemplate = Templates.First();
+                templateKey = firstTemplate.Name;
+                templateBody = firstTemplate.Content;
+            }
+
             return await Task.Run<Message>(() =>
             {
                 try
                 {
-                    if (!String.IsNullOrWhiteSpace(Template))
-                    {
-                        templateKey = Smart.Format(Template, context);
-
-                        var inlineTemplate = Templates.Where(x => x.Name == templateKey).FirstOrDefault();
-                        if (inlineTemplate != null)
-                            templateBody = inlineTemplate.Content;
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(Path) && File.Exists(Path))
-                    {
-                        templateKey = Path;
-                        templateBody = File.ReadAllText(Path);
-                    }
-
                     if (!Engine.Razor.IsTemplateCached(templateKey, msg.GetType()))
+                    {
+                        Engine.Razor.AddTemplate(templateKey, templateBody);
                         renderedPage = Engine.Razor.RunCompile(templateKey, msg.GetType(), msg, null);
+                    }
                     else
+                    {
                         renderedPage = Engine.Razor.Run(templateKey, msg.GetType(), msg, null);
+                    }
 
                     return new RenderedPage
                     {
